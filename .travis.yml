@@ -1,0 +1,11 @@
+language: node_js
+node_js:
+  - '4.2'
+  - '0.12'
+
+script:
+  - npm run lint
+  - npm test
+
+after_script:
+  - find ./coverage -name lcov.info -exec cat {} \; | ./node_modules/.bin/coveralls
