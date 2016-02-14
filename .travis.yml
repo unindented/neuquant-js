@@ -3,6 +3,14 @@ node_js:
   - '4.2'
   - '0.12'
 
+deploy:
+  provider: npm
+  email: unindented@gmail.com
+  api_key:
+    secure: 1PG7/rreOEX8swWAZeBIIgmIOErf3hj539hJpRkuQ8pB3uRYJuj8U2jYTTEon6LDmMDqKda79Dwaq+IlWKQhOkQyWjr8B2+0DGQuozA7jOHRgBjulc9b7OUhZxzlCRY42pJFsDTf0E32TtNJkSlowgIa8LBnwFF/D+kLTxN1C61XNSUNrplx86z2xUX8f+P/+efGptnJpV7E8qqZ9ED9qbNWpcifm92T9F64nNBS/eQf93d5bG+Ah6p+nSP3/v9j99Q4KOA4DY4KINn8lwTrZt2nJDZ4qDv3drLp79cWhRw8oUPEe7eHvaGRyEi1RU6I3dkz/oaOgfxeZ/Ptw63i2PIBf9rP0iz8WTKIn8UZLmU1xXOK6obsekPPUEL7HgIdvtCIELz9ShygTR5NF9hucMANRpOHFzHt5BqfwybP2iqKQc4tI0kAUA2b/9T5YO+erCtYxWo+8vZcnvTpjzy8raJZvBt74jJ6t7XxcfKQn6OhlIKHw9lALLC7HyS2l81feGK34DgwkBz/CK34tQi8rX5AnF1rXgZLrY+GsT31ltNkcIMA3jxokWkHTxu69CyKsmy712wmw6jhd7DvsMWGuTrY8OPPPjyPXXV+PNP8KdEwftOtcc0skJ6VJwkODQ2IyEZZxliMiSW/0QBv/LxTRhO+Gngb/nNB5Kz60b8g3xM=
+  on:
+    tags: true
+
 script:
   - npm run lint
   - npm test
