@@ -17,6 +17,9 @@
  * sublicense, and/or sell copies of the Software, and to permit persons who
  * receive copies from any such party to do so, with the only requirement being
  * that this copyright notice remain intact.
+ *
+ * Copyright (c) 2012 Johan Nordberg (JavaScript port)
+ * Copyright (c) 2014 Devon Govett (JavaScript port)
  */
 
 const prime1 = 499
@@ -35,7 +38,7 @@ const defaults = {
 
 export default class NeuQuant {
   constructor (pixels, options) {
-    Object.assign(this, defaults, options)
+    Object.assign(this, defaults, {pixels}, options)
 
     if (this.netsize < 4 || this.netsize > 256) {
       throw new Error('Color count must be between 4 and 256')
@@ -54,7 +57,7 @@ export default class NeuQuant {
     this.gamma = (1 << this.gammashift)
     this.betashift = 10
     this.beta = (this.intbias >> this.betashift)
-    this.betagamma = this.beta * this.gamma
+    this.betagamma = (this.beta * this.gamma)
 
     this.initrad = (this.netsize >> 3)
     this.radiusbiasshift = 6
@@ -70,15 +73,13 @@ export default class NeuQuant {
     this.alpharadbshift = (this.alphabiasshift + this.radbiasshift)
     this.alpharadbias = (1 << this.alpharadbshift)
 
-    this.pixels = pixels
-
     this.network = []
     this.netindex = new Uint32Array(256)
     this.bias = new Uint32Array(this.netsize)
     this.freq = new Uint32Array(this.netsize)
     this.radpower = new Uint32Array(this.netsize >> 3)
 
-    for (let i = 0; i < this.netsize; i++) {
+    for (let i = 0, l = this.netsize; i < l; i++) {
       let v = (i << (this.netbiasshift + 8)) / this.netsize
       this.network[i] = new Float64Array([v, v, v, 0])
       this.freq[i] = this.intbias / this.netsize
@@ -87,7 +88,7 @@ export default class NeuQuant {
   }
 
   unbiasnet () {
-    for (let i = 0; i < this.netsize; i++) {
+    for (let i = 0, l = this.netsize; i < l; i++) {
       this.network[i][0] >>= this.netbiasshift
       this.network[i][1] >>= this.netbiasshift
       this.network[i][2] >>= this.netbiasshift
@@ -134,7 +135,7 @@ export default class NeuQuant {
     let bestpos = -1
     let bestbiaspos = bestpos
 
-    for (let i = 0; i < this.netsize; i++) {
+    for (let i = 0, l = this.netsize; i < l; i++) {
       let n = this.network[i]
 
       let dist = Math.abs(n[0] - b) + Math.abs(n[1] - g) + Math.abs(n[2] - r)
@@ -164,12 +165,13 @@ export default class NeuQuant {
     let previouscol = 0
     let startpos = 0
 
-    for (let i = 0; i < this.netsize; i++) {
-      let q
+    for (let i = 0, l = this.netsize; i < l; i++) {
       let p = this.network[i]
+      let q = null
       let smallpos = i
       let smallval = p[1]
-      for (let j = i + 1; j < this.netsize; j++) {
+
+      for (let j = i + 1; j < l; j++) {
         q = this.network[j]
         if (q[1] < smallval) {
           smallpos = j
@@ -179,11 +181,10 @@ export default class NeuQuant {
       q = this.network[smallpos]
 
       if (i !== smallpos) {
-        let j
-        j = q[0]; q[0] = p[0]; p[0] = j
-        j = q[1]; q[1] = p[1]; p[1] = j
-        j = q[2]; q[2] = p[2]; p[2] = j
-        j = q[3]; q[3] = p[3]; p[3] = j
+        [p[0], q[0]] = [q[0], p[0]];
+        [p[1], q[1]] = [q[1], p[1]];
+        [p[2], q[2]] = [q[2], p[2]];
+        [p[3], q[3]] = [q[3], p[3]]
       }
 
       if (smallval !== previouscol) {
@@ -235,37 +236,39 @@ export default class NeuQuant {
       step = 3 * prime4
     }
 
-    let b, g, r, j
     let pix = 0
 
-    let i = 0
-    while (i < samplepixels) {
-      b = (this.pixels[pix] & 0xff) << this.netbiasshift
-      g = (this.pixels[pix + 1] & 0xff) << this.netbiasshift
-      r = (this.pixels[pix + 2] & 0xff) << this.netbiasshift
+    for (let i = 0; i < samplepixels;) {
+      let b = (this.pixels[pix] & 0xff) << this.netbiasshift
+      let g = (this.pixels[pix + 1] & 0xff) << this.netbiasshift
+      let r = (this.pixels[pix + 2] & 0xff) << this.netbiasshift
 
-      j = this.contest(b, g, r)
-
+      let j = this.contest(b, g, r)
       this.altersingle(alpha, j, b, g, r)
-      if (rad !== 0) this.alterneigh(rad, j, b, g, r)
+      if (rad !== 0) {
+        this.alterneigh(rad, j, b, g, r)
+      }
 
       pix += step
-      if (pix >= lengthcount) pix -= lengthcount
-
-      i++
+      if (pix >= lengthcount) {
+        pix -= lengthcount
+      }
 
       if (delta === 0) {
         delta = 1
       }
 
-      if (i % delta === 0) {
+      if (++i % delta === 0) {
         alpha -= alpha / alphadec
         radius -= radius / this.radiusdec
         rad = radius >> this.radiusbiasshift
 
-        if (rad <= 1) rad = 0
-        for (j = 0; j < rad; j++) {
-          this.radpower[j] = alpha * (((rad * rad - j * j) * this.radbias) / (rad * rad))
+        if (rad <= 1) {
+          rad = 0
+        }
+
+        for (let k = 0; k < rad; k++) {
+          this.radpower[k] = alpha * (((rad * rad - k * k) * this.radbias) / (rad * rad))
         }
       }
     }
