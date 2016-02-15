@@ -2,6 +2,10 @@
 
 NeuQuant neural-network image quantization algorithm.
 
+Original [NeuQuant algorithm](http://members.ozemail.com.au/~dekker/NEUQUANT.HTML) by [Anthony Dekker](http://members.ozemail.com.au/~dekker/).
+
+JavaScript port by [Johan Nordberg](https://github.com/jnordberg) and [Devon Govett](https://github.com/devongovett).
+
 
 ## Installation
 
@@ -123,5 +127,11 @@ Underlying NeuQuant implementation.
 
 
 ## License
+
+Copyright (c) 1994 [Anthony Dekker](http://members.ozemail.com.au/~dekker/).
+
+Copyright (c) 2012 [Johan Nordberg](https://github.com/jnordberg).
+
+Copyright (c) 2014 [Devon Govett](https://github.com/devongovett).
 
 Copyright (c) 2016 Daniel Perez Alvarez ([unindented.org](https://unindented.org/)). This is free software, and may be redistributed under the terms specified in the LICENSE file.
