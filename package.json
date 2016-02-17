@@ -3,18 +3,18 @@
   "description": "NeuQuant neural-network image quantization algorithm.",
   "version": "0.0.2",
   "license": "MIT",
-  "main": "lib/index.js",
+  "main": "helpers.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/unindented/neuquant-js.git"
   },
   "scripts": {
-    "clean": "rimraf coverage dist lib",
-    "lint": "eslint .",
+    "clean": "rimraf coverage dist",
+    "lint": "eslint src test",
     "test:node": "mocha --compilers js:babel-register",
     "test:browser": "karma start --single-run",
     "test": "npm run test:node && npm run test:browser",
-    "build:lib": "babel src --out-dir lib",
+    "build:lib": "babel src --out-dir .",
     "build:dev": "webpack --config webpack.config.development.js",
     "build:prod": "webpack --config webpack.config.production.js",
     "build": "npm run build:lib && npm run build:dev && npm run build:prod",

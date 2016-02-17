@@ -74,7 +74,7 @@ import fs from 'fs'
 import path from 'path'
 import {Encoder as GIFEncoder} from 'gif-stream'
 import {Decoder as PNGDecoder} from 'png-stream'
-import {Stream as NeuQuantStream} from 'neuquant-js'
+import NeuQuantStream from 'neuquant-js/stream'
 
 const src = path.resolve(__dirname, 'image.png')
 const dest = path.resolve(__dirname, 'image.gif')
