@@ -1,7 +1,7 @@
 {
   "name": "neuquant-js",
   "description": "NeuQuant neural-network image quantization algorithm.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "main": "helpers.js",
   "repository": {
