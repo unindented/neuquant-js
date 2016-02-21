@@ -1,9 +1,6 @@
 /coverage/
 /test/
-/.eslint*
-/.gitignore
-/.npmignore
-/.travis.yml
-/karma.conf.js
-/tests.js
+/.*
+/karma.*
+/tests.*
 /webpack.*
