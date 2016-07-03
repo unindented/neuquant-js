@@ -30,7 +30,7 @@
     "babel-register": "^6.5.2",
     "babel-runtime": "^6.5.0",
     "chai": "^3.5.0",
-    "coveralls": "^2.11.6",
+    "coveralls": "^2.11.9",
     "eslint": "^2.2.0",
     "eslint-config-standard": "^5.1.0",
     "eslint-plugin-promise": "^1.0.8",
