@@ -33,7 +33,7 @@
     "coveralls": "^2.11.6",
     "eslint": "^3.0.0",
     "eslint-config-standard": "^6.0.0",
-    "eslint-plugin-promise": "^2.0.0",
+    "eslint-plugin-promise": "^3.0.0",
     "eslint-plugin-standard": "^2.0.0",
     "isparta-loader": "^2.0.0",
     "json-loader": "^0.5.4",
