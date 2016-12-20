@@ -36,9 +36,23 @@ const defaults = {
   samplefac: 10
 }
 
+const assign = function (target) {
+  for (let i = 1, l = arguments.length; i < l; i++) {
+    const nextSource = arguments[i]
+    if (nextSource != null) {
+      for (const nextKey in nextSource) {
+        if (Object.prototype.hasOwnProperty.call(nextSource, nextKey)) {
+          target[nextKey] = nextSource[nextKey]
+        }
+      }
+    }
+  }
+  return target
+}
+
 export default class NeuQuant {
   constructor (pixels, options) {
-    Object.assign(this, defaults, {pixels}, options)
+    assign(this, defaults, {pixels}, options)
 
     if (this.netsize < 4 || this.netsize > 256) {
       throw new Error('Color count must be between 4 and 256')
